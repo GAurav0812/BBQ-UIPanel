@@ -1,0 +1,25 @@
+<div class="col-sm-7">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Create Template</h3>
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                Enter template type<span class="note-text">*</span>
+                <input type="text" placeholder="Enter template type" class="form-control">
+            </div>
+            <div class="form-group">
+                Select Question Type<span class="note-text">*</span>
+                <div ng-class="{'has-error': newQuestion.form.ctrlQuestionType.$invalid && ( newQuestion.form.ctrlQuestionType.$dirty || newQuestion.form.$submitted)}">
+                    <select class="form-control" ng-model="newQuestion.info.questionType"
+                            id="questionType" name="ctrlQuestionType"
+                            ng-options="g.id as g.text for g in QuestionTypeArray" required>
+                        <option value="">Select</option>
+                    </select>
+                    <span class="help-block error-block basic-block">Required</span>
+                </div>
+            </div>
+            <button class="btn btn-primary pull-left" type="submit">Create Question</button>
+        </div>
+    </div>
+</div>

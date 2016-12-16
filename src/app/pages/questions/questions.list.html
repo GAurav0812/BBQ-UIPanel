@@ -1,0 +1,72 @@
+<div class="panel profile-panel">
+    <div class="panel-heading panel-background">
+        <h3 class="panel-title">Question List</h3>
+    </div>
+    <div class="panel-body">
+        <div>
+            <button class="btn btn-primary pull-right" ng-click="gotoCreateQuestion()">Create Question</button>
+        </div>
+
+        <div>
+            <table class="table" st-table="questionListsData" st-safe-src="questionListsMasterData">
+                <thead>
+                <tr class="sortable ">
+                    <th class="table-id" st-sort="id"><b>SL.NO</b></th>
+                    <th st-sort="questionDesc"><b>QUESTION</b></th>
+                    <th st-sort="questionType"><b>QUESTION TYPE</b></th>
+                    <th st-sort="parentQuestionId"><b>PARENT QUESTION</b></th>
+                    <th st-sort="parentAnswerId"><b>PARENT ANSWER</b></th>
+                    <th st-sort="parentAnswerId"><b>ANSWER SYMBOL</b></th>
+                    <th><b>ACTION</b></th>
+                </tr>
+
+                <tr>
+                    <th></th>
+                    <th><input st-search="questionDesc" placeholder="Search Question"
+                               class="input-sm form-control search-input"
+                               type="search"/></th>
+                    <th><input st-search="questionType" placeholder="Search Question type"
+                               class="input-sm form-control search-input"
+                               type="search"/></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in questionListsData">
+                    <td>{{$index + 1}}</td>
+                    <td>{{item.questionDesc}}</td>
+                    <td>{{item.questionType | answerTypeFullForm}}</td>
+                    <td>{{item.parentQuestionId}}</td>
+                    <td>{{item.parentAnswerId}}</td>
+                    <td>{{item.answerSymbol}}</td>
+                    <td>
+                        <button class="btn btn-primary btn-xs" data-toggle="modal"
+                                ng-click="editQuestionData(item)" data-toggle="tooltip" title="Edit Course"><i
+                                class="fa fa-pencil fa-lg"></i>
+                        </button>
+                        <button class="btn btn-primary btn-xs" data-toggle="modal"
+                                ng-click="gotoTemplatePage(item.id)"><i class="fa fa-users fa-lg" data-toggle="tooltip"
+                                                                         title="Create Template"></i>
+                        </button>
+                        <button class="btn btn-primary btn-xs" data-toggle="modal"
+                                confirm="Warning! This will also delete everything related to this course. Are you sure, you want to delete?"
+                                ng-click="deleteQuestion(item.id)" data-toggle="tooltip" title="Delete Course"><i
+                                class="fa fa-trash-o fa-lg"></i>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="7" class="text-center">
+                        <div st-pagination="" st-items-by-page="" st-displayed-pages="5"></div>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>

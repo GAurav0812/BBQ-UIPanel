@@ -1,0 +1,82 @@
+<div class="col-sm-12">
+<button ng-if="!studentView" class="btn btn-primary btn-sm" ng-click="goToQuestionListPage()"><i
+        class="fa fa-arrow-left fa-lg"></i> Back
+</button>
+</div>
+<br><br>
+<br>
+<div class="col-sm-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Create Question</h3>
+        </div>
+        <div class="panel-body">
+            <form name="newQuestion.form" class="form-horizontal" ng-submit="createQuestion(newQuestion.form.$valid)"
+                  novalidate>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <h6 class="note-text">Note: * Fields are Mandatory</h6>
+                        Question<span class="note-text">*</span>
+                        <div ng-class="{'has-error': newQuestion.form.questionDesc.$invalid && (newQuestion.form.questionDesc.$dirty || newQuestion.form.$submitted)}">
+                            <input class="form-control" name="questionDesc"
+                                   ng-model="newQuestion.info.questionDesc" ui-validate="'isValidName($value)'"
+                                   minlength="2"
+                                   maxlength="40" required>
+                            <span class="help-block error-block basic-block">Valid name without special characters</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        Subject Question Type<span class="note-text">*</span>
+                        <div ng-class="{'has-error': newQuestion.form.questionType.$invalid && (newQuestion.form.questionType.$dirty || newQuestion.form.$submitted)}">
+                            <select class="form-control" ng-model="newQuestion.info.questionType"
+                                    id="questionType" name="questionType"
+                                    ng-options="g.id as g.text for g in QuestionTypeOptions" required>
+                                <option value="">Select Question Type</option>
+                            </select>
+                            <span class="help-block error-block basic-block">Required</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        Parent Question<span class="optional-text">  (optional)</span>
+                        <input class="form-control" name="parentQuestionId"
+                               ng-model="newQuestion.info.parentQuestionId" minlength="2"
+                               maxlength="40" >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        Parent Answer<span class="optional-text">  (optional)</span>
+                        <input class="form-control" name="parentAnswerId"
+                               ng-model="newQuestion.info.parentAnswerId" minlength="2"
+                               maxlength="40" >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        Answer Symbol<span class="note-text">*</span>
+                        <div ng-class="{'has-error': newQuestion.form.answerSymbol.$invalid && (newQuestion.form.answerSymbol.$dirty || newQuestion.form.$submitted)}">
+                            <select class="form-control" ng-model="newQuestion.info.answerSymbol"
+                                    id="answerSymbol" name="answerSymbol"
+                                    ng-options="g.id as g.text for g in SymbolTypeOptions" required>
+                                <option value="">Select Answer Symbol Type</option>
+                            </select>
+                            <span class="help-block error-block basic-block">Valid name without special characters</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-primary " ng-hide="dataLoading"
+                                ng-disabled="newQuestion.form.$invalid">Create Question
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
