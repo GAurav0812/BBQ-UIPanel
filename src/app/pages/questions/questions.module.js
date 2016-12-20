@@ -8,41 +8,43 @@
     angular.module('UApps.pages.questions', [])
         .config(routeConfig).controller('questionsCtrl', questionsCtrl);
 
-    function questionsCtrl($location,Question,$uibModal,QuestionsData ,toastr,$scope,symbolTypes,questionAnswerTypes) {
+    function questionsCtrl($location, Question, $uibModal, QuestionsData, toastr, $scope, symbolTypes, questionAnswerTypes) {
 
         $scope.questionListsData = $scope.questionListsMasterData = QuestionsData.getList();
         var editModalBox;
 
-        $scope.gotoCreateQuestion = function(){
-          $location.path("/createQuestion");
+        $scope.gotoCreateQuestion = function () {
+            $location.path("/createQuestion");
         };
 
         $scope.QuestionTypeOptions = questionAnswerTypes;
         $scope.SymbolTypeOptions = symbolTypes;
 
+        $scope.selected = {
+            parentQuestion: {},
+            parentAnswer:{}
+        };
+
+        /*  $scope.newQuestion = {
+         form: {},
+         info: Question.newObject()
+         };
+         */
 
         $scope.newQuestion = {
-            form: {},
-            info: Question.newObject()
-        };
-        $scope.editQuestion = {
-            form: {},
-            info: Question.newObject()
-        };
-
-       /* $scope.newQuestion = {
             form: {},
             info: {
                 questionDesc: "",
                 questionType: "",
                 parentAnswerId: "",
-                parentQuestionId: "",
+                parentQuestionId:  "",
                 answerSymbol: ""
             }
         };
-*/
+
         $scope.createQuestion = function (isValid) {
             if (isValid) {
+                $scope.newQuestion.info.parentQuestionId= $scope.selected.parentQuestion.id;
                 QuestionsData.create($scope.newQuestion.info).then(function (newdata) {
                     toastr.success("Question created successfully!", "Success");
                     $scope.newQuestion.form.$setPristine();
@@ -56,6 +58,14 @@
             }
         };
 
+        $scope.checkAnswersTypeForQuestion = function () {
+            if (angular.isDefined($scope.selected.parentQuestion.id)) {
+                QuestionsData.answerByQuestion($scope.selected.parentQuestion.id).then(function (response) {
+                    $scope.answerListByQuestion = response;
+                });
+
+            }
+        };
         $scope.goToQuestionListPage = function () {
             $location.path("/questions");
         };
@@ -74,30 +84,22 @@
             $location.path("/templates");
         };
 
-        $scope.editQuestionData= function (item) {
-            $scope.editQuestion = {};
-            $scope.editQuestion.info = Question.createFromObject(item);
-            editModalBox = $uibModal.open({
-                animation: true,
-                templateUrl: 'app/pages/questions/editQuestion.html',
-                size: 'md',
-                backdrop: 'static',
-                keyboard: false,
-                scope: $scope
-            });
+        $scope.editQuestionData = function (item) {
+            $location.path("editQuestion/" + item.id);
         };
-        $scope.updateQuestion = function (isValid) {
-            if (isValid) {
-                QuestionsData.update($scope.editQuestion.info).then(function () {
-                    toastr.success("Question updated successfully!", "Success");
-                    $scope.questionListsMasterData = QuestionsData.getList();
-                    $scope.questionListsData = [].concat($scope.questionListsMasterData);
-                    editModalBox.close();
-                }, function (errorMsg) {
-                    toastr.error(errorMsg, "Failed");
-                });
-            }
-        };
+
+        /* $scope.updateQuestion = function (isValid) {
+         if (isValid) {
+         QuestionsData.update($scope.editQuestion.info).then(function () {
+         toastr.success("Question updated successfully!", "Success");
+         $scope.questionListsMasterData = QuestionsData.getList();
+         $scope.questionListsData = [].concat($scope.questionListsMasterData);
+         editModalBox.close();
+         }, function (errorMsg) {
+         toastr.error(errorMsg, "Failed");
+         });
+         }
+         };*/
 
     }
 
@@ -126,10 +128,9 @@
                 url: '/createQuestion',
                 templateUrl: 'app/pages/questions/createQuestion.html',
                 controller: questionsCtrl,
-                title: 'Create Question',
-
-
+                title: 'CREATE QUESTION'
             })
+
 
     }
 

@@ -8,9 +8,9 @@
     angular.module('UApps.filters', [])
         .filter('statusFullForm', statusFullForm)
         .filter('answerTypeFullForm', answerTypeFullForm)
-        .filter('subjectAssignTypeFilter', subjectAssignTypeFilter)
         .filter('emptyInputFilter', emptyInputFilter)
-        .filter('noValueFilter', noValueFilter);
+        .filter('noValueFilter', noValueFilter)
+        .filter('answerSymbolTypeFilter', answerSymbolTypeFilter);
 
 
     function statusFullForm() {
@@ -19,18 +19,51 @@
         };
     }
 
-    function answerTypeFullForm() {
+    function answerTypeFullForm(questionAnswerTypes) {
         return function (value) {
-            return value == "O" ? "Objective" : "Subjective";
+            if (value == 1) {
+                return questionAnswerTypes[0].text
+            } else if (value == 2) {
+                return questionAnswerTypes[1].text
+            } else if (value == 3) {
+                return questionAnswerTypes[2].text
+            } else if (value == 4) {
+                return questionAnswerTypes[3].text
+            }
         };
     }
 
-
-    function subjectAssignTypeFilter(assignedSubjectTypes) {
+    function answerSymbolTypeFilter(symbolTypes) {
         return function (value) {
-            return value == "1" ? assignedSubjectTypes[0].text : assignedSubjectTypes[1].text;
+            if (value == 1) {
+                return "<span><i class='fa fa-frown-o' aria-hidden='true'></i> " +
+                    "<i class='fa fa-smile-o' aria-hidden='true'></i> " +
+                    "<i class='fa fa-meh-o' aria-hidden='true'></i> " +
+                    "<i class='fa fa-smile-o' aria-hidden='true'></i> </span>"
+            }
+            else if (value == 2) {
+                return "<span><i class='fa fa-star' aria-hidden='true'></i> " +
+                    "<i class='fa fa-star-o' aria-hidden='true'></i> " +
+                    "<i class='fa fa-star' aria-hidden='true'></i> " +
+                    "<i class='fa fa-star-o' aria-hidden='true'></i> </span>"
+            }
+            else if (value == 3) {
+                return "<span><i class='fa fa-circle-o' aria-hidden='true'></i> " +
+                    "<i class='fa fa-circle' aria-hidden='true'></i> " +
+                    "<i class='fa fa-circle-o' aria-hidden='true'></i> " +
+                    "<i class='fa fa-circle' aria-hidden='true'></i> </span>"
+            }
+            else if (value == 4) {
+                return "<span><i class='fa fa-font' aria-hidden='true'></i> </span>"
+            }
+            else if (value == 5) {
+                return "<span><i class='fa fa-male' aria-hidden='true'></i> " +
+                    "<i class='fa fa-female' aria-hidden='true'></i> </span>"
+            }
+
         };
     }
+
 
     function emptyInputFilter() {
         return function (value) {
@@ -40,7 +73,7 @@
 
     function noValueFilter() {
         return function (value) {
-            return value == "" ? "<em class='text-color-muted'><small>No Value</small></em>" : value;
+            return value == "" || value == null || value == "0" ? "<em class='text-color-muted'><small>Not assigned</small></em>" : value;
         };
     }
 

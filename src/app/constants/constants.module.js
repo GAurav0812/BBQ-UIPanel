@@ -13,15 +13,17 @@
             site: "www.theuniquemedia.in"
         })
         .constant("questionAnswerTypes", [
-            {id: 'O', text: 'Objective'},
-            {id: 'S', text: 'Subjective'}
+            {id: '1', text: 'Single Select'},
+            {id: '2', text: 'Single Rating'},
+            {id: '3', text: 'Multiple Rating'},
+            {id: '4', text: 'Open Text'}
         ])
         .constant("symbolTypes", [
-            {id: '1', text: 'Smiley'},
-            {id: '2', text: 'Star'},
-            {id: '3', text: 'Circle'},
-            {id: '4', text: 'Text'},
-            {id: '5', text: 'Male-Female'}
+            {id: 1, text: 'Smiley'},
+            {id: 2, text: 'Star'},
+            {id: 3, text: 'Circle'},
+            {id: 4, text: 'Text'},
+            {id: 5, text: 'Male-Female'}
         ])
 
 

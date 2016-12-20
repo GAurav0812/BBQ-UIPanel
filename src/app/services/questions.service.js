@@ -22,6 +22,8 @@
                 return httpService.delete("delete/" + id);
             }, getList: function () {
                 return httpService.get("list");
+            }, answerByQuestion: function (questionId) {
+                return httpService.get("listAnswers/" + questionId);
             }
         };
         return QuestionServices;
@@ -63,6 +65,14 @@
                 return data;
             });
         };
+        QuestionsData.answerByQuestion = function (questionId) {
+            var self = this;
+            return QuestionServices.answerByQuestion(questionId).then(function (data) {
+                return data.answers;
+            });
+        };
+
+
         return QuestionsData;
     }
 
@@ -77,9 +87,9 @@
                     parentAnswerId: "",
                     parentQuestionId: "",
                     answerSymbol: undefined
-
                 }
             },
+
             createFromObject: function (obj) {
                 return {
                     id: obj.id,
@@ -92,6 +102,7 @@
                 }
 
             }
+
         };
 
         return Question;

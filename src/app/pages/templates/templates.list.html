@@ -1,0 +1,76 @@
+<div class="panel profile-panel">
+    <div class="panel-heading panel-background">
+        <h3 class="panel-title">Question List</h3>
+    </div>
+    <div class="panel-body">
+        <div>
+            <button class="btn btn-primary pull-right" ng-click="gotoCreateTemplate()">Create Template</button>
+        </div>
+        <div>
+            <table class="table" st-table="templateListsData" st-safe-src="templateListsMasterData">
+                <thead>
+                <tr class="sortable ">
+                    <th class="table-id" st-sort="id"><b>SL.NO</b></th>
+                    <th st-sort="templateDesc"><b>TEMPLATE</b></th>
+                    <th st-sort="outletId"><b>OUTLET ID</b></th>
+                    <th><b>OUTLET TITLE</b></th>
+                    <th st-sort="status"><b>STATUS</b></th>
+                    <th><b>ACTION</b></th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th><input st-search="templateDesc" placeholder="Search Template"
+                               class="input-sm form-control search-input"
+                               type="search"/></th>
+                    <th></th>
+                    <th><input st-search="outletDesc" placeholder="Search Outlet Name"
+                               class="input-sm form-control search-input"
+                               type="search"/>
+                    </th>
+                    <th><select st-search="status" st-input-event="change" st-delay="0" ng-model="dummy"
+                                class="input-sm form-control">
+                        <option value="">
+                            All
+                        </option>
+                        <option value="I">
+                            InActive
+                        </option>
+                        <option value="A">
+                            Active
+                        </option>
+                    </select></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in templateListsData">
+                    <td>{{$index + 1}}</td>
+                    <td>{{item.templateDesc}}</td>
+                    <td ng-bind-html="item.outletId | noValueFilter"></td>
+                    <td ng-bind-html="item.outletDesc | noValueFilter"></td>
+
+                    <td editable-select="item.status" e-selectpicker blur="cancel"
+                        e-ng-options="g.id as g.text for g in statusOptions" onaftersave="updateTemplate(item)">
+                        {{item.status
+                        | statusFullForm}}
+                    </td>
+                    <td>
+                        <button class="btn btn-primary btn-xs" data-toggle="modal"
+                                ng-click="goToAssignQuestionPage(item)"><i class="fa fa-sign-in fa-lg"
+                                                                                      data-toggle="tooltip"
+                                                                                      title="Manage Template"></i>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="6" class="text-center">
+                        <div st-pagination="" st-items-by-page="" st-displayed-pages="5"></div>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>

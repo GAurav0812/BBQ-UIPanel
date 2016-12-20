@@ -1,0 +1,39 @@
+<div class="modal-content">
+    <div class="modal-header panel-background">
+        <button type="button" class="close" ng-click="$dismiss()" aria-label="Close">
+            <em class="fa fa-close "></em>
+        </button>
+        <h4 class="modal-title">Assign Oulet</h4>
+    </div>
+    <div class="modal-body">
+        <form name="newAssignOutlet.form" class="form-horizontal"
+              ng-submit="assignOutlet(newAssignOutlet.form.$valid)"
+              novalidate>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <div ng-class="{'has-error': newAssignOutlet.form.outletId.$invalid && (newAssignOutlet.form.outletId.$dirty || newAssignOutlet.form.$submitted)}">
+                        <label class="control-label"><b>Select Outlet<span class="note-text">*</span></b></label>
+                        <select class="form-control" ng-model="selected.outlet" class="form-control"
+                                name="outletId" id="outletId"
+                                ng-options="item as item.outletDesc for item in outletListsData" required>
+                            <option value="">Select Outlet</option>
+                        </select>
+                        <span class="help-block error-block basic-block">Required</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-sm-2">
+                <button type="submit" class="btn btn-primary" ng-hide="dataLoading">Assign Outlet
+                    <i class="fa fa-spinner fa-spin" ng-show="dataLoading"></i></button>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        &nbsp;
+    </div>
+</div>
+
+
+
+
+

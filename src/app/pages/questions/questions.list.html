@@ -41,7 +41,7 @@
                     <td>{{item.questionType | answerTypeFullForm}}</td>
                     <td>{{item.parentQuestionId}}</td>
                     <td>{{item.parentAnswerId}}</td>
-                    <td>{{item.answerSymbol}}</td>
+                    <td ng-bind-html="item.answerSymbol | answerSymbolTypeFilter"></td>
                     <td>
                         <button class="btn btn-primary btn-xs" data-toggle="modal"
                                 ng-click="editQuestionData(item)" data-toggle="tooltip" title="Edit Course"><i
@@ -51,11 +51,11 @@
                                 ng-click="gotoTemplatePage(item.id)"><i class="fa fa-users fa-lg" data-toggle="tooltip"
                                                                          title="Create Template"></i>
                         </button>
-                        <button class="btn btn-primary btn-xs" data-toggle="modal"
+                    <!--    <button class="btn btn-primary btn-xs" data-toggle="modal"
                                 confirm="Warning! This will also delete everything related to this course. Are you sure, you want to delete?"
                                 ng-click="deleteQuestion(item.id)" data-toggle="tooltip" title="Delete Course"><i
                                 class="fa fa-trash-o fa-lg"></i>
-                        </button>
+                        </button>-->
                     </td>
                 </tr>
                 </tbody>

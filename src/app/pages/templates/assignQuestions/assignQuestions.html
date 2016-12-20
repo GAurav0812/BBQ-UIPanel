@@ -1,0 +1,177 @@
+<div class="col-sm-12">
+    <button class="btn btn-primary btn-sm" ng-click="goToTemplateListPage()"><i
+            class="fa fa-arrow-left fa-lg"></i> Back
+    </button>
+    <br><br>
+</div>
+<div class="col-sm-12">
+    <div class="panel profile-panel">
+        <div class="panel-heading panel-background">
+            <h3 class="panel-title">Assign Outlet Panel</h3>
+        </div>
+        <div class="panel-body">
+            <form name="newAssignOutlet.form" class="form-horizontal"
+                  ng-submit="assignOutlet(newAssignOutlet.form.$valid)"
+                  novalidate>
+                <h6 class="note-text">Note: * Fields are Mandatory</h6>
+                <div class="row">
+                    <div class="form-group col-sm-4">
+                        <div class="col-sm-12">
+                            Select Question<span class="note-text">*</span>
+                            <div ng-class="{'has-error': newAssignOutlet.form.templateId.$invalid && (newAssignOutlet.form.templateId.$dirty || newAssignOutlet.form.$submitted)}">
+                                <select class="form-control" ng-model="selected.outlet" class="form-control"
+                                        name="templateId" id="templateId"
+                                        ng-options="item as item.outletDesc for item in outletListsData" required>
+                                    <option value="">Select Outlet</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-4">
+                        <div class="col-sm-12">
+                            From Date<span class="note-text">*</span>
+                            <div ng-class="{'has-error': newAssignOutlet.form.fromDate.$invalid && (newAssignOutlet.form.fromDate.$dirty || newAssignOutlet.form.$submitted)}">
+                                <p class="input-group">
+                                    <input type="text" class="form-control" uib-datepicker-popup="{{format}}"
+                                           ng-model="newAssignOutlet.info.fromDate" is-open="popup2.opened"
+                                           datepicker-options="dateOptions" ng-required="true" close-text="Close"
+                                           alt-input-formats="altInputFormats" name="fromDate"/>
+                                    <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="open2()">
+                                                <i class="glyphicon glyphicon-calendar"></i></button>
+                                        </span></p>
+                                <span class="help-block error-block basic-block">Date Required</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-4">
+                        <div class="col-sm-12">
+                            To Date<span class="note-text">*</span>
+                            <div ng-class="{'has-error': newAssignOutlet.form.toDate.$invalid && (newAssignOutlet.form.toDate.$dirty || newAssignOutlet.form.$submitted)}">
+                                <p class="input-group">
+                                    <input type="text" class="form-control" uib-datepicker-popup="{{format}}"
+                                           ng-model="newAssignOutlet.info.toDate" is-open="popup1.opened"
+                                           datepicker-options="dateOptions" ng-required="true" close-text="Close"
+                                           alt-input-formats="altInputFormats" name="toDate"/>
+                                    <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="open1()">
+                                                <i class="glyphicon glyphicon-calendar"></i></button>
+                                        </span></p>
+                                <span class="help-block error-block basic-block">Required</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <div class="col-sm-12">
+                        <button type="submit" class="btn btn-primary" ng-hide="dataLoading">Assign Outlet
+                            <i class="fa fa-spinner fa-spin" ng-show="dataLoading"
+                               ng-disabled="newAssignOutlet.form.$invalid"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="col-sm-12">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="panel profile-panel">
+                <div class="panel-heading panel-background">
+                    <h3 class="panel-title">Select Question Panel</h3>
+                </div>
+                <div class="panel-body">
+                    <form name="newAssignQuestions.form" class="form-horizontal"
+                          ng-submit="assignQuestion(newAssignQuestions.form.$valid)"
+                          novalidate>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <h6 class="note-text">Note: * Fields are Mandatory</h6>
+                                Select Question<span class="note-text">*</span>
+                                <div ng-class="{'has-error': newAssignQuestions.form.questionId.$invalid && (newAssignQuestions.form.questionId.$dirty || newAssignQuestions.form.$submitted)}">
+                                    <select class="form-control" ng-model="selected.question" class="form-control"
+                                            name="questionId" id="questionId"
+                                            ng-options="item as item.questionDesc for item in questionListsData"
+                                            ng-change="clearForm()"
+                                            required>
+                                        <option value="">Select Question</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                Priority<span class="note-text">*</span>
+                                <div ng-class="{'has-error': newAssignQuestions.form.priority.$invalid && (newAssignQuestions.form.priority.$dirty || newAssignQuestions.form.$submitted)}">
+                                    <input class="form-control" name="priority"
+                                           ng-model="newAssignQuestions.info.priority" required>
+                                    <span class="help-block error-block basic-block">Required</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-10">
+                                <button type="submit" class="btn btn-primary " ng-hide="dataLoading"
+                                        ng-disabled="newAssignQuestions.form.$invalid">Add to Template
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="panel profile-panel">
+                <div class="panel-heading panel-background">
+                    <h3 class="panel-title">QUESTIONS FOR <span ng-bind="templateInfo.templateDesc"></span></h3>
+                </div>
+                <div class="panel-body">
+                    <!--  <div>
+                          <button class="btn btn-primary pull-right" ng-click="assignOutletBox()">Assign Oulet</button>
+                      </div>-->
+                    <table class="table" st-table="templateQuestionsList" st-safe-src="templateQuestionsMasterList">
+                        <thead>
+                        <tr class="sortable ">
+                            <th class="table-id" st-sort="id"><b>SL.NO</b></th>
+                            <th st-sort="questionText"><b>QUESTION</b></th>
+                            <th st-sort="priority"><b>PRIORITY</b></th>
+                            <th><b>ACTION</b></th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th><input st-search="priority" placeholder="Search Question"
+                                       class="input-sm form-control search-input"
+                                       type="search"/></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in templateQuestionsList">
+                            <td>{{$index + 1}}</td>
+                            <td>{{item.questionText}}</td>
+                            <td>{{item.priority}}</td>
+                            <td>
+                                <button class="btn btn-primary btn-xs" data-toggle="modal"
+                                        confirm="Warning! Are you sure, you want to delete?"
+                                        ng-click="deleteAssignQuestion(item.questionId)" data-toggle="tooltip"
+                                        title="Delete Course"><i
+                                        class="fa fa-times fa-lg"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <td colspan="4" class="text-center">
+                                <div st-pagination="" st-items-by-page="" st-displayed-pages="5"></div>
+                            </td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
