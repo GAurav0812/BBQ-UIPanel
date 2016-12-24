@@ -12,6 +12,7 @@
 
         $scope.questionListsData = $scope.questionListsMasterData = QuestionsData.getList();
         var editModalBox;
+        $scope.questionPageSize = 10;
 
         $scope.gotoCreateQuestion = function () {
             $location.path("/createQuestion");
@@ -22,7 +23,7 @@
 
         $scope.selected = {
             parentQuestion: {},
-            parentAnswer:{}
+            parentAnswer: {}
         };
 
         /*  $scope.newQuestion = {
@@ -31,21 +32,58 @@
          };
          */
 
+
         $scope.newQuestion = {
             form: {},
             info: {
                 questionDesc: "",
                 questionType: "",
                 parentAnswerId: "",
-                parentQuestionId:  "",
+                parentQuestionId: "",
+                answerOption: [{
+                    label: "",
+                    rating: ""
+                }],
                 answerSymbol: ""
             }
         };
 
+        $scope.getQuestionType = function () {
+            if ($scope.newQuestion.info.questionType == 4) {
+                $scope.newQuestion.info.answerSymbol = 4;
+                return true;
+            }
+            return "";
+        };
+        $scope.setAnswerSymbol = function () {
+            if ($scope.newQuestion.info.questionType == 4) {
+                $scope.newQuestion.info.answerSymbol = 4;
+            }else if($scope.newQuestion.info.questionType == 1){
+                $scope.newQuestion.info.answerSymbol = 3;
+            }
+        };
+
+
+        $scope.addRow = function (index) {
+            var option = {label: "", rating: ""};
+            if ($scope.newQuestion.info.answerOption.length <= index + 1) {
+                $scope.newQuestion.info.answerOption.splice(index + 1, 0, option);
+            }
+        };
+
+        $scope.deleteRow = function ($event, index) {
+            if ($event.which == 1)
+                $scope.newQuestion.info.answerOption.splice(index, 1);
+        };
+
+
         $scope.createQuestion = function (isValid) {
             if (isValid) {
-                $scope.newQuestion.info.parentQuestionId= $scope.selected.parentQuestion.id;
-                QuestionsData.create($scope.newQuestion.info).then(function (newdata) {
+
+                $scope.newQuestion.info.parentQuestionId = $scope.selected.parentQuestion.id;
+                $scope.newQuestion.info.parentAnswerId = $scope.selected.parentAnswer.answer_id;
+
+                QuestionsData.create(Question.createFromObject($scope.newQuestion.info)).then(function (newdata) {
                     toastr.success("Question created successfully!", "Success");
                     $scope.newQuestion.form.$setPristine();
                     $scope.newQuestion.info = Question.newObject();
@@ -128,7 +166,12 @@
                 url: '/createQuestion',
                 templateUrl: 'app/pages/questions/createQuestion.html',
                 controller: questionsCtrl,
-                title: 'CREATE QUESTION'
+                title: 'CREATE QUESTION',
+                resolve: {
+                    "LoadQuestions": function (QuestionsData) {
+                        return QuestionsData.load();
+                    }
+                }
             })
 
 

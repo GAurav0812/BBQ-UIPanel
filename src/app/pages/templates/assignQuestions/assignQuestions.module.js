@@ -112,6 +112,7 @@
                 TemplatesData.assignOutlet(outletId, Template.createAssignQuestionObject($scope.newAssignOutlet.info)).then(function (response) {
                     toastr.success("Outlet Assigned successfully", "Success");
                     $scope.newAssignOutlet.info="";
+                    loadTemplateData();
                 }, function (errorMsg) {
                     toastr.error(errorMsg, "Failed");
                 })

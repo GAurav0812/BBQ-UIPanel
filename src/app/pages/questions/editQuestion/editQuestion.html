@@ -41,11 +41,35 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-12">
+                        Enter Options<span class="note-text">*</span>
+                        <div ng-class="{'has-error': editQuestion.form.answerOption.$invalid && (editQuestion.form.answerOption.$dirty || editQuestion.form.$submitted)}">
+                            <table>
+                                <tr ng-repeat="option in editQuestion.info.answerOption track by $index">
+                                    <td class="col-md-4"><input type="text" class="form-control " style="margin-left: -15px;margin-bottom: 8px"
+                                                                ng-model="editQuestion.info.answerOption[$index].answerDesc"
+                                                                placeholder="Enter Value"></td>
+                                    <td class="col-md-4"><input type="number" class="form-control"
+                                                                ng-model="editQuestion.info.answerOption[$index].rating"
+                                                                placeholder="Enter Rating"></td>
+                                    <td class="col-md-2"><input type="button" class="form-control"
+                                                                ng-click="addRow($index)" value="Add" ng-show="$last">
+                                    </td>
+                                    <td class="col-md-2 "><input type="button" class="form-control"
+                                                                 ng-click="deleteRow($event,$index)" value="Delete"
+                                                                 ng-show="$index != 0"></td>
+                                </tr>
+                            </table>
+                            <span>{{editQuestion.info.answerOption|json}}</span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
                         Parent Question<span class="optional-text">  (optional)</span>
-                        <select class="form-control" ng-model="selected.parentQuestionId" class="form-control"
+                        <select class="form-control" ng-model="selected.parentQuestion" class="form-control"
                                 name="parentQuestionId"
-                                ng-options="item as item.questionDesc for item in questionListsData" ng-change="clearForm()"
-                                required>
+                                ng-options="item as item.questionDesc for item in questionListsData" ng-change="clearForm()">
                             <option value="">Select Parent Question</option>
                         </select>
                     </div>
@@ -53,9 +77,11 @@
                 <div class="form-group">
                     <div class="col-sm-12">
                         Parent Answer<span class="optional-text">  (optional)</span>
-                        <input class="form-control" name="parentAnswerId"
-                               ng-model="questionInfo.parentAnswerId" minlength="2"
-                               maxlength="40">
+                        <select class="form-control" ng-model="editQuestion.form.parentAnswerId" class="form-control"
+                                name="parentAnswerId"
+                                ng-options="item as item.answerDesc for item in questionInfo.options" required>
+                            <option value="">Select Parent Answer</option>
+                        </select>
                     </div>
                 </div>
                 <div class="form-group">

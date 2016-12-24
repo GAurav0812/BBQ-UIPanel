@@ -11,16 +11,16 @@
     angular.module('UApps.pages.templates', [])
         .config(routeConfig).controller('TemplatesCtrl', TemplatesCtrl);
 
-    function TemplatesCtrl($location,editableThemes, editableOptions,TemplatesData,toastr,$uibModal, Template, $scope) {
+    function TemplatesCtrl($location, editableThemes, editableOptions, TemplatesData, toastr, $uibModal, Template, $scope) {
 
         $scope.templateListsData = $scope.templateListsMasterData = TemplatesData.getList();
-
+        $scope.templatePageSize = 10;
         $scope.statusOptions = [
             {id: 'A', text: 'Active'},
             {id: 'I', text: 'InActive'}
         ];
 
-      var editModalBox;
+        var editModalBox;
 
         $scope.gotoCreateTemplate = function (item) {
             editModalBox = $uibModal.open({
@@ -38,7 +38,7 @@
         };
 
         $scope.goToAssignQuestionPage = function (item) {
-            $location.path("/assignQuestions/"+item.templateId);
+            $location.path("/assignQuestions/" + item.templateId);
         };
         $scope.newTemplate = {
             form: {},
@@ -75,18 +75,12 @@
             info: Template.newObject()
         };
 
-        $scope.updateTemplate = function (isValid) {
-            $scope.editTemplate.info = $scope.questionInfo;
-            if (isValid) {
-                TemplatesData.update($scope.editTemplate.info).then(function () {
-                    toastr.success("Template updated successfully!", "Success");
-                    $scope.templateListsMasterData = TemplatesData.getList();
-                    $scope.templateListsData = [].concat($scope.templateListsMasterData);
-                    $location.path("/questions");
-                }, function (errorMsg) {
-                    toastr.error(errorMsg, "Failed");
-                });
-            }
+        $scope.updateTemplate = function (item) {
+            TemplatesData.update(Template.updateTemplateObject(item)).then(function () {
+                toastr.success("Template updated successfully!", "Success");
+            }, function (errorMsg) {
+                toastr.error(errorMsg, "Failed");
+            });
         };
 
         editableOptions.theme = 'bs3';
@@ -108,11 +102,11 @@
                     icon: 'fa fa-list-alt',
                     order: 2
                 },
-                 resolve: {
-                 "LoadTemplates": function (TemplatesData) {
-                 return TemplatesData.load();
-                 }
-                 }
+                resolve: {
+                    "LoadTemplates": function (TemplatesData) {
+                        return TemplatesData.load();
+                    }
+                }
             })
     }
 

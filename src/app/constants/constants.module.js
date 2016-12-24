@@ -22,8 +22,7 @@
             {id: 1, text: 'Smiley'},
             {id: 2, text: 'Star'},
             {id: 3, text: 'Circle'},
-            {id: 4, text: 'Text'},
-            {id: 5, text: 'Male-Female'}
+            {id: 4, text: 'Text'}
         ])
 
 

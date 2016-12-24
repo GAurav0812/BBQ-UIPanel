@@ -43,22 +43,24 @@
             }
             else if (value == 2) {
                 return "<span><i class='fa fa-star' aria-hidden='true'></i> " +
-                    "<i class='fa fa-star-o' aria-hidden='true'></i> " +
                     "<i class='fa fa-star' aria-hidden='true'></i> " +
+                    "<i class='fa fa-star-half-o' aria-hidden='true'></i> " +
                     "<i class='fa fa-star-o' aria-hidden='true'></i> </span>"
             }
             else if (value == 3) {
                 return "<span><i class='fa fa-circle-o' aria-hidden='true'></i> " +
-                    "<i class='fa fa-circle' aria-hidden='true'></i> " +
+                    "<i class='fa fa-check-circle-o' aria-hidden='true'></i> " +
                     "<i class='fa fa-circle-o' aria-hidden='true'></i> " +
-                    "<i class='fa fa-circle' aria-hidden='true'></i> </span>"
+                    "<i class='fa fa-circle-o' aria-hidden='true'></i> </span>"
             }
             else if (value == 4) {
-                return "<span><i class='fa fa-font' aria-hidden='true'></i> </span>"
+                return "  <span><i class='fa fa-keyboard-o fa-lg text-center' aria-hidden='true'></i>  </span>"
             }
             else if (value == 5) {
                 return "<span><i class='fa fa-male' aria-hidden='true'></i> " +
-                    "<i class='fa fa-female' aria-hidden='true'></i> </span>"
+                    "<span><i class='fa fa-check' aria-hidden='true'></i> " +
+                    "<span><i class='fa fa-female' aria-hidden='true'></i> " +
+                    "<i class='fa fa-times' aria-hidden='true'></i> </span>"
             }
 
         };
@@ -73,7 +75,7 @@
 
     function noValueFilter() {
         return function (value) {
-            return value == "" || value == null || value == "0" ? "<em class='text-color-muted'><small>Not assigned</small></em>" : value;
+            return value == "" || value == null || value == "0" ? "<em class='text-color-muted '><small>Not assigned</small></em>" : value;
         };
     }
 

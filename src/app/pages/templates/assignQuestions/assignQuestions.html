@@ -124,13 +124,15 @@
         <div class="col-sm-6">
             <div class="panel profile-panel">
                 <div class="panel-heading panel-background">
-                    <h3 class="panel-title">QUESTIONS FOR <span ng-bind="templateInfo.templateDesc"></span></h3>
+                    <h3 class="panel-title">QUESTIONS FOR <span class="green-icon-text pull-right" ng-bind="templateInfo.templateDesc"></span></h3>
                 </div>
                 <div class="panel-body">
                     <!--  <div>
                           <button class="btn btn-primary pull-right" ng-click="assignOutletBox()">Assign Oulet</button>
                       </div>-->
-                    <table class="table" st-table="templateQuestionsList" st-safe-src="templateQuestionsMasterList">
+                    <b ng-if="templateInfo.outletDesc!=null" class="text-shadow green-text pull-right">Outlet Name - {{templateInfo.outletDesc}}</b>
+                    <br>
+                    <table class="table table-responsive table-striped" st-table="templateQuestionsList" st-safe-src="templateQuestionsMasterList">
                         <thead>
                         <tr class="sortable ">
                             <th class="table-id" st-sort="id"><b>SL.NO</b></th>

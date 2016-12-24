@@ -39,7 +39,7 @@
     }
 
     /** @ngInject */
-    function TemplatesData(TemplateServices, DataObject) {
+    function TemplatesData(TemplateServices,Template,DataObject) {
 
         var TemplatesData = new DataObject();
         TemplatesData.load = function () {
@@ -61,7 +61,7 @@
         TemplatesData.delete = function (id) {
             var self = this;
             return TemplateServices.delete(id).then(function (data) {
-                var index = self.getRowIndexById(id)
+                var index = TemplatesData.getRowIndexByTemplateId(id)
                 self.rows.splice(index, 1);
                 return data;
             });
@@ -69,10 +69,19 @@
         TemplatesData.update = function (obj) {
             var self = this;
             return TemplateServices.update(obj).then(function (data) {
-                var index = self.getRowIndexById(obj.templateId)
+                var index = TemplatesData.getRowIndexByTemplateId(obj.templateId);
                 self.rows[index] = obj;
                 return data;
             });
+        };
+        TemplatesData.getRowIndexByTemplateId = function (id) {
+            var self = this;
+            for (var i in self.rows) {
+                if (self.rows[i].templateId == id) {
+                    return i;
+                }
+            }
+            return -1;
         };
         TemplatesData.listQuestions = function (templateId) {
             var self = this;
@@ -140,6 +149,14 @@
                     templateId: obj.templateId,
                     fromDate: $filter('date')(obj.fromDate, 'yyyy-MM-dd 00:00:00'),
                     toDate: $filter('date')(obj.toDate, 'yyyy-MM-dd 00:00:00')
+                }
+            },
+
+            updateTemplateObject: function (obj) {
+                return {
+                    id: obj.templateId,
+                    templateDesc: obj.templateDesc,
+                    status: obj.status
                 }
             },
             assignQuestionObject: function (obj) {

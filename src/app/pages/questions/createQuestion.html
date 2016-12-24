@@ -31,13 +31,38 @@
                         Subject Question Type<span class="note-text">*</span>
                         <div ng-class="{'has-error': newQuestion.form.questionType.$invalid && (newQuestion.form.questionType.$dirty || newQuestion.form.$submitted)}">
                             <select class="form-control" ng-model="newQuestion.info.questionType"
-                                    id="questionType" name="questionType"
+                                    id="questionType" name="questionType"  ng-change="setAnswerSymbol()"
                                     ng-options="g.id as g.text for g in QuestionTypeOptions" required>
                                 <option value="">Select Question Type</option>
                             </select>
                             <span class="help-block error-block basic-block">Required</span>
                         </div>
                     </div>
+                </div>
+                <div class="form-group" ng-hide="getQuestionType()==true">
+                    <div class="col-sm-12">
+                        Enter Options<span class="note-text">*</span>
+                        <div ng-class="{'has-error': newQuestion.form.answerOption.$invalid && (newQuestion.form.answerOption.$dirty || newQuestion.form.$submitted)}">
+                            <table>
+                                <tr ng-repeat="name in newQuestion.info.answerOption track by $index">
+                                    <td class="col-md-4"><input type="text" class="form-control "
+                                                                style="margin-left: -15px;margin-bottom: 8px"
+                                                                ng-model="newQuestion.info.answerOption[$index].label"
+                                                                placeholder="Enter Value"></td>
+                                    <td class="col-md-4"><input type="number" class="form-control"
+                                                                ng-model="newQuestion.info.answerOption[$index].rating"
+                                                                placeholder="Enter Rating"></td>
+                                    <td class="col-md-2"><input type="button" class="form-control"
+                                                                ng-click="addRow($index)" value="Add" ng-show="$last">
+                                    </td>
+                                    <td class="col-md-2 "><input type="button" class="form-control"
+                                                                 ng-click="deleteRow($event,$index)" value="Delete"
+                                                                 ng-show="$index != 0"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="form-group">
                     <div class="col-sm-12">
@@ -56,7 +81,7 @@
                         Parent Answer<span class="optional-text"> (optional)</span>
                         <select class="form-control" ng-model="selected.parentAnswer" class="form-control"
                                 name="parentAnswerId"
-                                ng-options="item as item.answerDesc for item in answerListByQuestion" required>
+                                ng-options="item as item.answerDesc for item in answerListByQuestion">
                             <option value="">Select Parent Answer</option>
                         </select>
                     </div>

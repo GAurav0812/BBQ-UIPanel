@@ -13,6 +13,8 @@
     function QuestionServices(HttpService) {
 
         var httpService = new HttpService("question");
+
+        var httpQuestionService = new HttpService("answer");
         var QuestionServices = {
             create: function (obj) {
                 return httpService.post("create", obj);
@@ -23,7 +25,9 @@
             }, getList: function () {
                 return httpService.get("list");
             }, answerByQuestion: function (questionId) {
-                return httpService.get("listAnswers/" + questionId);
+                return httpQuestionService.get("list/" + questionId);
+            }, questionInfo: function (questionId) {
+                return httpService.get("questionInfo/" + questionId);
             }
         };
         return QuestionServices;
@@ -68,7 +72,13 @@
         QuestionsData.answerByQuestion = function (questionId) {
             var self = this;
             return QuestionServices.answerByQuestion(questionId).then(function (data) {
-                return data.answers;
+                return data.answerResponseList;
+            });
+        };
+        QuestionsData.questionInfo = function (questionId) {
+            var self = this;
+            return QuestionServices.questionInfo(questionId).then(function (data) {
+                return data;
             });
         };
 
@@ -86,6 +96,7 @@
                     questionType: undefined,
                     parentAnswerId: "",
                     parentQuestionId: "",
+                    answerOption: undefined,
                     answerSymbol: undefined
                 }
             },
@@ -95,10 +106,22 @@
                     id: obj.id,
                     questionDesc: obj.questionDesc,
                     questionType: obj.questionType,
-                    parentAnswerId: obj.parentAnswerId,
-                    parentQuestionId: obj.parentQuestionId,
+                    parentAnswerId: angular.isDefined(obj) ? obj.parentAnswerId : null,
+                    parentQuestionId: angular.isDefined(obj) ? obj.parentQuestionId : null,
+                    answerOption: obj.answerOption,
                     answerSymbol: obj.answerSymbol
+                }
 
+            },
+            editFromObject: function (obj) {
+                return {
+                    id: obj.id,
+                    questionDesc: obj.questionDesc,
+                    questionType: obj.questionType,
+                    parentAnswerId: angular.isDefined(obj) ? obj.parentAnswerId : null,
+                    parentQuestionId: angular.isDefined(obj) ? obj.parentQuestionId : null,
+                    answerOption: obj.options,
+                    answerSymbol: obj.answerSymbol
                 }
 
             }

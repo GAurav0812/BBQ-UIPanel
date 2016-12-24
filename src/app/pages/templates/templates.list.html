@@ -3,14 +3,22 @@
         <h3 class="panel-title">Question List</h3>
     </div>
     <div class="panel-body">
-        <div>
-            <button class="btn btn-primary pull-right" ng-click="gotoCreateTemplate()">Create Template</button>
+        <div class="row">
+            <label class="col-sm-2 pull-right">Rows on page
+                <select class="form-control selectpicker show-tick" title="Rows on page" selectpicker
+                        ng-model="templatePageSize" ng-options="i for i in [5,10,15,20,25]">
+                </select>
+            </label>
+            <div class="col-sm-2 pull-right margin-top-btn ">
+                <button class="btn btn-primary" ng-click="gotoCreateTemplate()">Create Template</button>
+            </div>
         </div>
         <div>
-            <table class="table" st-table="templateListsData" st-safe-src="templateListsMasterData">
+            <table class="table table-responsive table-striped" st-table="templateListsData"
+                   st-safe-src="templateListsMasterData">
                 <thead>
                 <tr class="sortable ">
-                    <th class="table-id" st-sort="id"><b>SL.NO</b></th>
+                    <th class="table-id" st-sort="id"><b>ID</b></th>
                     <th st-sort="templateDesc"><b>TEMPLATE</b></th>
                     <th st-sort="outletId"><b>OUTLET ID</b></th>
                     <th><b>OUTLET TITLE</b></th>
@@ -44,7 +52,7 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="item in templateListsData">
-                    <td>{{$index + 1}}</td>
+                    <td>{{item.templateId}}</td>
                     <td>{{item.templateDesc}}</td>
                     <td ng-bind-html="item.outletId | noValueFilter"></td>
                     <td ng-bind-html="item.outletDesc | noValueFilter"></td>
@@ -57,8 +65,8 @@
                     <td>
                         <button class="btn btn-primary btn-xs" data-toggle="modal"
                                 ng-click="goToAssignQuestionPage(item)"><i class="fa fa-sign-in fa-lg"
-                                                                                      data-toggle="tooltip"
-                                                                                      title="Manage Template"></i>
+                                                                           data-toggle="tooltip"
+                                                                           title="Manage Template"></i>
                         </button>
                     </td>
                 </tr>
@@ -66,7 +74,7 @@
                 <tfoot>
                 <tr>
                     <td colspan="6" class="text-center">
-                        <div st-pagination="" st-items-by-page="" st-displayed-pages="5"></div>
+                        <div st-pagination="" st-items-by-page="templatePageSize" st-displayed-pages="5"></div>
                     </td>
                 </tr>
                 </tfoot>
